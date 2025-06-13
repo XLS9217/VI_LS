@@ -17,7 +17,7 @@ struct FTTSFeedback
 	FString ResultID;
 };
 
-//-----------------------------------------Socket related
+//-----------------------------------------Socket Control related
 USTRUCT(BlueprintType)
 struct FSpeakPayload
 {
@@ -28,6 +28,9 @@ struct FSpeakPayload
 
 	UPROPERTY(BlueprintReadWrite)
 	FString Content;
+	
+	UPROPERTY(BlueprintReadWrite)
+	FString BodyLanguage;
 };
 
 

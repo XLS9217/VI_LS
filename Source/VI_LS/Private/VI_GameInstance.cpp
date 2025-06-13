@@ -50,16 +50,18 @@ void UVI_GameInstance::ConnectToWebSocket(const FString& URL)
 	{
 		UE_LOG(LogTemp, Log, TEXT("WebSocket connected to [%s]"), *URL);
 
-		const FString RoleMessage = TEXT("{\"role\":\"displayer\"}");
+		const FString RoleMessage = TEXT("{\"role\":\"displayer\" , \"platform\":\"unreal\"}");
 		SocketHandle->Send(RoleMessage);
 
 		UE_LOG(LogTemp, Log, TEXT("Sent role message: %s"), *RoleMessage);
+
+		OnWebsocketConnect.Broadcast(true);
 	});
 
-	SocketHandle->OnConnectionError().AddLambda([URL](const FString& Error)
+	SocketHandle->OnConnectionError().AddLambda([this,URL](const FString& Error)
 	{
 		UE_LOG(LogTemp, Error, TEXT("WebSocket connection error [%s]: %s"), *URL, *Error);
-		
+		OnWebsocketConnect.Broadcast(false);
 	});
 
 	SocketHandle->OnClosed().AddLambda([URL](int32 StatusCode, const FString& Reason, bool bWasClean)

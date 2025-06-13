@@ -45,11 +45,13 @@ desktop.ini
 *.uasset
 *.umap
 
-# Include critical folders
+# Include critical project folders (override above ignores)
 !Source/**
 !Config/**
 !Content/**
 
-# Optional: ignore temporary launcher logs
-*.log
+# Ignore specific folder inside Content
+Content/RawExternAssets/
 
+# Optional: ignore temporary launcher logs (redundant but fine to keep)
+*.log

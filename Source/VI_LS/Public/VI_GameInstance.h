@@ -14,6 +14,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnControlMessage, const FControlMessageBase&, ControlMessage);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTTSFeedback, const FTTSFeedback&, TTSFeedback);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWebsocketConnect, const bool, bConnectSuccess);
 
 /**
  * 
@@ -36,13 +37,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "WebSocket") 
 	void RequestForTTS(const FString& SpeechText , const FString& URL, const FString& ResultID);
 
-	
+
+	//Delegates
 	UPROPERTY(BlueprintAssignable, Category = "WebSocket") 
 	FOnControlMessage OnControlMessage;
 	
 	UPROPERTY(BlueprintAssignable, Category = "WebSocket") 
 	FOnTTSFeedback OnTTSFeedback;
 
+	UPROPERTY(BlueprintAssignable, Category = "WebSocket")
+	FOnWebsocketConnect OnWebsocketConnect;
+
+	
+	
 	UPROPERTY(BlueprintReadOnly)
 	USoundWaveProcedural* SoundWaveProcedural;
 	

@@ -34,6 +34,10 @@ FControlMessageBase UStructForger::Forge(const FString& ControlMessage)
 			{
 				Payload.Content = PayloadObj->GetStringField(TEXT("content"));
 			}
+			if (PayloadObj->HasField(TEXT("body_language")))
+			{
+				Payload.BodyLanguage = PayloadObj->GetStringField(TEXT("body_language"));
+			}
 
 			Result.Type = TypeValue;
 			Result.SpeakPayload = Payload;
