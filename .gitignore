@@ -1,32 +1,55 @@
-# Ignore everything by default
-*
-
-# Include these folders/files
-!.gitignore
-!Source/**
-!Config/**
-!Content/**
-!*.uproject
-
-# Ignore build artifacts
+# Unreal Engine specific
 Binaries/
 DerivedDataCache/
 Intermediate/
 Saved/
+.vscode/
 .vs/
 .idea/
+
+# Ignore build system files
 *.sln
+*.suo
+*.user
+*.userprefs
+*.csproj
 *.VC.db
+*.VC.opendb
 *.opensdf
 *.sdf
+*.suo
+*.xcodeproj
+*.xcworkspace
+*.xcuserdata
+*.orig
 
-# OS/IDE specific
-*.log
-*.obj
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore by-products of packaging
 *.pdb
-*.ipch
-*.db
-*.db-wal
-*.db-shm
-*.tmp
-*.cache
+*.obj
+*.mod
+*.log
+*.tlog
+
+# Ignore crash reports
+*.dmp
+
+# Ignore config from local builds
+*.local
+
+# Optional: Ignore audio analysis or custom cache files
+*.uasset
+*.umap
+
+# Include critical folders
+!Source/**
+!Config/**
+!Content/**
+
+# Optional: ignore temporary launcher logs
+*.log
+
