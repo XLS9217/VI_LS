@@ -1,0 +1,32 @@
+# Ignore everything by default
+*
+
+# Include these folders/files
+!.gitignore
+!Source/**
+!Config/**
+!Content/**
+!*.uproject
+
+# Ignore build artifacts
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vs/
+.idea/
+*.sln
+*.VC.db
+*.opensdf
+*.sdf
+
+# OS/IDE specific
+*.log
+*.obj
+*.pdb
+*.ipch
+*.db
+*.db-wal
+*.db-shm
+*.tmp
+*.cache
