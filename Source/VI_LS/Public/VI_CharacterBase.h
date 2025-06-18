@@ -4,6 +4,8 @@
 #include "GameFramework/Character.h"
 #include "VI_CharacterBase.generated.h"
 
+
+
 // Structure to store action info
 USTRUCT(BlueprintType)
 struct FCharacterActionData
@@ -23,6 +25,9 @@ struct FCharacterActionData
 	FString Description;
 };
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTalkingPoseUpdated, int32, TalkingPoseID);//send -1 for not talking
+
 UCLASS()
 class VI_LS_API AVI_CharacterBase : public ACharacter
 {
@@ -38,14 +43,23 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	
 	// List of actions available to this character
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character|Actions")
 	TArray<FCharacterActionData> CharacterActions;
 
+
+	UPROPERTY(BlueprintAssignable, Category = "Character|Actions")
+	FOnTalkingPoseUpdated OnTalkingPoseUpdated;
+	
+	
 	// Function to generate JSON from the CharacterActions array
 	UFUNCTION(BlueprintCallable, Category = "Character|Actions")
 	FString GenerateActionsJSON(const FString& ActionType);
 
 	UFUNCTION(BlueprintCallable, Category = "Character|Actions")
 	int32 GetBlendPoseIDByActionName(const FString& ActionName) const;
+
+	UFUNCTION(BlueprintCallable, Category = "Character|Actions")
+	void BroadcastPoseUpdate(const FString& ActionName) const;
 };

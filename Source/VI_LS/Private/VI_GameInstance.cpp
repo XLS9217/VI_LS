@@ -125,9 +125,16 @@ void UVI_GameInstance::RequestForTTS(const FString& SpeechText, const FString& U
 		
 		SoundWaveProcedural->QueueAudio(AudioData.GetData(), AudioData.Num());
 
+
+		const int32 BytesPerSample = 2; // 16-bit PCM
+		const float Duration = static_cast<float>(AudioData.Num()) / 
+			(SoundWaveProcedural->GetSampleRateForCurrentPlatform() * SoundWaveProcedural->NumChannels * BytesPerSample);
+
+		
 		FTTSFeedback Feedback;
 		Feedback.SoundWave = SoundWaveProcedural;
 		Feedback.ResultID = ResultID;
+		Feedback.SoundLength = Duration;
 
 		OnTTSFeedback.Broadcast(Feedback);
 

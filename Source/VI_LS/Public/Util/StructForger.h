@@ -15,7 +15,11 @@ struct FTTSFeedback
 
 	UPROPERTY(BlueprintReadWrite)
 	FString ResultID;
+
+	UPROPERTY(BlueprintReadWrite)
+	float SoundLength;  
 };
+
 
 //-----------------------------------------Socket Control related
 USTRUCT(BlueprintType)
@@ -24,13 +28,19 @@ struct FSpeakPayload
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite)
-	FString Action;
-
-	UPROPERTY(BlueprintReadWrite)
 	FString Content;
 	
 	UPROPERTY(BlueprintReadWrite)
 	FString BodyLanguage;
+};
+
+USTRUCT(BlueprintType)
+struct FThinkingPayload
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsThinking;
 };
 
 
@@ -39,12 +49,20 @@ USTRUCT(BlueprintType)
 struct FControlMessageBase
 {
 	GENERATED_BODY()
-
+	
 	UPROPERTY(BlueprintReadWrite)
 	FString Type;
 
+	//The rest of the body, use based on action
+	
+	UPROPERTY(BlueprintReadWrite)
+	FString Action;
+	
 	UPROPERTY(BlueprintReadWrite)
 	FSpeakPayload SpeakPayload;
+
+	UPROPERTY(BlueprintReadWrite)
+	FThinkingPayload ThinkingPayload;
 };
 
 

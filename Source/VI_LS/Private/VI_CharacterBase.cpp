@@ -71,5 +71,11 @@ int32 AVI_CharacterBase::GetBlendPoseIDByActionName(const FString& ActionName) c
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("GetBlendPoseIDByActionName: Action '%s' not found in CharacterActions."), *ActionName);
-	return 0;
+	return -1;
+}
+
+void AVI_CharacterBase::BroadcastPoseUpdate(const FString& ActionName) const
+{
+	int32 PoseID = GetBlendPoseIDByActionName(ActionName);
+	OnTalkingPoseUpdated.Broadcast(PoseID);
 }
