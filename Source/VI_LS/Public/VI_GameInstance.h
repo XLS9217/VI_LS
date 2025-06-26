@@ -52,6 +52,7 @@ public:
 	
 	UPROPERTY(BlueprintReadOnly)
 	USoundWaveProcedural* SoundWaveProcedural;
+
 	
 private:
 	TSharedPtr<IWebSocket> SocketHandle;

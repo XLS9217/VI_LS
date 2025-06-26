@@ -20,7 +20,9 @@ public class VI_LS : ModuleRules
 			"Json",
 			"JsonUtilities",
 			"SoundUtilities",
-			"AudioMixer"
+			"AudioMixer",
+			"Voice",
+			"AudioCapture"
 		});
 	}
 }

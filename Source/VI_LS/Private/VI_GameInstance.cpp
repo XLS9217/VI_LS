@@ -13,6 +13,7 @@ void UVI_GameInstance::Init()
 {
 	Super::Init();
 
+
 	if (!FModuleManager::Get().IsModuleLoaded("WebSockets"))
 	{
 		FModuleManager::Get().LoadModule("WebSockets");

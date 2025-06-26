@@ -1,4 +1,6 @@
 #include "VI_CharacterBase.h"
+
+#include "VI_GameInstance.h"
 #include "Dom/JsonObject.h"
 #include "Serialization/JsonWriter.h"
 #include "Serialization/JsonSerializer.h"
@@ -12,6 +14,12 @@ AVI_CharacterBase::AVI_CharacterBase()
 void AVI_CharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (UVI_GameInstance* GameInstance = Cast<UVI_GameInstance>(GetGameInstance()))
+	{
+		GameInstance->OnControlMessage.AddDynamic(this, &AVI_CharacterBase::HandleControlMessage);
+		GameInstance->OnWebsocketConnect.AddDynamic(this, &AVI_CharacterBase::HandleWebsocketConnect );
+	}
 }
 
 void AVI_CharacterBase::Tick(float DeltaTime)
@@ -19,10 +27,52 @@ void AVI_CharacterBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+
+void AVI_CharacterBase::HandleControlMessage(const FControlMessageBase& Message)
+{
+	if (Message.Type.Equals(TEXT("control") , ESearchCase::IgnoreCase) )
+	{
+		if (Message.Action.Equals(TEXT("speak") , ESearchCase::IgnoreCase))
+		{
+			const FString& Content = Message.SpeakPayload.Content;
+
+			OnControlSpeak(Message.SpeakPayload);
+			UE_LOG(LogTemp, Warning, TEXT("OnControlSpeak: %s"), *Content);
+		}
+		else if (Message.Action.Equals(TEXT("thinking") , ESearchCase::IgnoreCase))
+		{
+			OnControlThink(Message.ThinkingPayload);
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Message type %s is not a control"), *Message.Type);
+	}
+}
+
+void AVI_CharacterBase::HandleWebsocketConnect(const bool bSuccess)
+{
+	if (bSuccess)
+	{
+		const FString ActionJsonStr = GenerateActionsJSON(TEXT("set"));
+		if (UVI_GameInstance* GameInstance = Cast<UVI_GameInstance>(GetGameInstance()))
+		{
+			GameInstance->SendMessageViaSocket(ActionJsonStr);
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Websocket connection failed"));
+	}
+	
+}
+
+
 void AVI_CharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
+
 
 FString AVI_CharacterBase::GenerateActionsJSON(const FString& ActionType)
 {
